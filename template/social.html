@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>	
+	<title>Network</title>
+	<meta charset="utf-8" />
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.17.0/vis.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.17.0/vis.min.css" rel="stylesheet" type="text/css"/>
+	<link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div id="mynetwork" style="width: 800px; height: 600px;"></div>
+<label>Get social Network</label>
+    <form class="form-inline" method="POST" action="/read_ID4">
+		<input class="form-control" type="text" placeholder="ID" name="ID">
+        <button type="submit" class="btn btn-info">Get network by ID</button>
+    </form>
+<script type="text/javascript">
+    var nodes = new vis.DataSet();
+    var edges = new vis.DataSet();
+
+    nodes.add({id: {{pivot}}, lable: {{pivot}}, text: 'Our hero'})
+    var dots = {{list|tojson|safe}};
+    for (i=0; i<dots.length; i++) {
+    	nodes.add({id: dots[i][0], label: dots[i][0]});
+    	edges.add({from: {{pivot}}, to: dots[i][0], label: 'times: ' + dots[i][1]});
+    }
+
+    var container = document.getElementById('mynetwork');
+    var data = {
+        nodes: nodes,
+        edges: edges
+    };
+    var options = {};
+    var network = new vis.Network(container, data, options);
+</script>
+</body>
+</html>
